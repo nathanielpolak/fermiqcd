@@ -1,2 +1,7 @@
 *.exe
-*.exe
+*.o
+*.a
+*.so
+*~
+*.swp
+.DS_Store
