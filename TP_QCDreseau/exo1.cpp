@@ -59,7 +59,7 @@ int main()
 
     while (infile >> index >> y)
     {
-        somme += exp(-pow(y,2.0)) * pow(y,2.0);   // f(y) à intégrer
+        somme += exp(-pow(y,2.0)); // * pow(y,2.0);    f(y) à intégrer
         N++;
     }
 
