@@ -3,7 +3,7 @@
 ///////////////////
 int file_index=0;
 char filename[20];  //file name is incremented automatically
-do{sprintf(filename,"Result_%d",file_index);file_index++;}while(file_exist(filename)==1);
+do{sprintf(filename,"Result_%d",file_index);file_index++;}while(file_exists(filename)==1);
 ofstream result_file(filename);
 //
 result_file<<"Parameters for this calculation:"<<endl;

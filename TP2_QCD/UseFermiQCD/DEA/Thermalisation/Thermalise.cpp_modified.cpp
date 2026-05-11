@@ -4,7 +4,7 @@
 /////////////
 // INCLUDES //
 /////////////
-#include "myheaders.h"
+#include "MyHeaders.h"
 #if defined(__APPLE__)                        // to allow running on mac-os
 #include <stdlib.h>
 #else
@@ -17,83 +17,8 @@ ofstream outfile1("hot.dat");
 ofstream outfile2("cold.dat");
 ofstream outfile3("bighot.dat");
 ofstream outfile4("bigcold.dat");
-//
-void StartGrace(){
-    if (GraceOpen(2048) == -1) {
-        fprintf (stderr, "Can't run Grace. \n");
-        exit (EXIT_FAILURE);
-    }
-    /* Send some initialization commands to Grace */
-//
-    GracePrintf ("page size 700 500");
-    GracePrintf ("arrange(1,2,0.2,0.1,0.1)");
-//
-    GracePrintf( "with g0");                    // g0
-    GracePrintf("autoscale onread none");
-    GracePrintf ("world xmin 0");
-    GracePrintf ("world xmax 100");
-    GracePrintf ("world ymin 0");
-    GracePrintf ("world ymax 0.8");
-    GracePrintf ("autoticks");
-    //set symbols   for g0
-    GracePrintf ("s0 symbol 1");
-    GracePrintf ("s0 symbol size 0.4");
-    GracePrintf ("s0 linestyle 0");
-    GracePrintf ("s1 symbol 2");
-    GracePrintf ("s1 symbol size 0.4");
-    GracePrintf ("s1 linestyle 0");
-    GracePrintf ("s2 symbol 3");
-    GracePrintf ("s2 symbol size 0.4");
-    GracePrintf ("s2 linestyle 0");
-    GracePrintf ("s3 symbol 4");
-    GracePrintf ("s3 symbol size 0.4");
-    GracePrintf ("s3 linestyle 0");
-//set legend
-    GracePrintf ("legend on");
-    GracePrintf ("legend loctype view");
-    GracePrintf ("legend 0.85,0.95");
-    GracePrintf ("s0 legend \"<plaquette> hot start\" ");
-    GracePrintf ("s1 legend \"<plaquette> cold start\" ");
-//    GracePrintf ("s2 legend \"20*<5x5 loop> hot start\" ");
-//    GracePrintf ("s3 legend \"20*<5x5 loop> cold start\" ");
-//
-   GracePrintf( "with g1");           //  g1
-    GracePrintf("autoscale onread none");
-    GracePrintf ("world xmin 0");
-    GracePrintf ("world xmax 100");
-    GracePrintf ("world ymin 0");
-    GracePrintf ("world ymax 0.8");
-    GracePrintf ("autoticks");
-    //set symbols  same for g1
-    GracePrintf ("s0 symbol 1");
-    GracePrintf ("s0 symbol size 0.4");
-    GracePrintf ("s0 linestyle 0");
-    GracePrintf ("s1 symbol 2");
-    GracePrintf ("s1 symbol size 0.4");
-    GracePrintf ("s1 linestyle 0");
-    GracePrintf ("s2 symbol 3");
-    GracePrintf ("s2 symbol size 0.4");
-    GracePrintf ("s2 linestyle 0");
-    GracePrintf ("s3 symbol 4");
-    GracePrintf ("s3 symbol size 0.4");
-    GracePrintf ("s3 linestyle 0");
-}
-void EndGrace(){
-//   Close GRACE or pipe
-    if (GraceIsOpen()) {
-        /* Tell Grace to save the data */
-        GracePrintf ("saveall \"Thermalise.agr\"");
-        /* Flush the output buffer and close Grace */
-        GraceClose();
-        // Close pipe but keep grace open: ne pas oublier de quitter grace sinon  les process
-        //s'accumulent
-        //GraceClosePipe();
-        /* We are done */
-        exit (EXIT_SUCCESS);
-    } else {
-        exit (EXIT_FAILURE);
-    }
-}
+
+
 //// MAIN
 int main(int argc, char** argv) {
 //////////////////////
@@ -103,7 +28,7 @@ int main(int argc, char** argv) {
 ///////////////////////////
 //// LATTICE DEFINITION ///
 ///////////////////////////
-  int box[]={12,12,6,6};                                      ///      define lattice
+  int box[]={16,12,6,6};                                      ///      define lattice
   mdp_lattice lattice(4,box);
   int nc=2;                                                   ///nc colors
   gauge_field U(lattice,nc);
@@ -115,7 +40,7 @@ int main(int argc, char** argv) {
 //// ITERATION CONTROL //
 /////////////////////////
   int ncorel=1,nheat=0;       // decorelation and heating
-  int maxiter=10000,niter=50;
+  int maxiter=10000,niter=1000;
   int test, k;
   float rk;
   int autoscale=100,scalex=100;              //    autoscale every 10 iterations
@@ -124,7 +49,7 @@ int main(int argc, char** argv) {
 //// LOOP DEFINITION and STORAGE//
 //////////////////////////////////
   int mu=0,nu=1,t=1,z=1,bigt=4,bigz=4;                      ///loop plane and size
-  bigt=6;bigz=6;                                           /// loop of size 5x5
+  bigt=5;bigz=5;                                           /// loop of size 5x5
   int   showbigloopscale=20;                                    /// multiply big loop by 20 for plotting
   float hotloop,hotsum,coldloop,coldsum;
   float bighotloop,bighotsum,bigcoldloop,bigcoldsum,bigloopscale;
@@ -140,15 +65,15 @@ int main(int argc, char** argv) {
   char gracecommand[50];
   char graceloopsizehot[50],graceloopsizecold[50];
   bigloopscale=showbigloopscale;
-  sprintf(gracesubtitle,"subtitle \"SU(%d) lattice %dx%dx%dx%d beta=%0.1f\"",nc,box[0],box[1],box[2],box[3],mybeta);
-  sprintf(graceloopsizehot,"s2 legend \"%d*<%dx%d loop> hot\"",showbigloopscale,bigt-t,bigz-z);
- sprintf(graceloopsizecold,"s3 legend \"%d*<%dx%d loop> cold\"",showbigloopscale,bigt-t,bigz-z);
+//  sprintf(gracesubtitle,"subtitle \"SU(%d) lattice %dx%dx%dx%d beta=%0.1f\"",nc,box[0],box[1],box[2],box[3],mybeta);
+//  sprintf(graceloopsizehot,"s2 legend \"%d*<%dx%d loop> hot\"",showbigloopscale,bigt-t,bigz-z);
+// sprintf(graceloopsizecold,"s3 legend \"%d*<%dx%d loop> cold\"",showbigloopscale,bigt-t,bigz-z);
 //
-  StartGrace();
-  GracePrintf("focus g0");
-  GracePrintf (gracesubtitle);
-  GracePrintf(graceloopsizehot);
-  GracePrintf(graceloopsizecold);
+ // StartGrace();
+ // GracePrintf("focus g0");
+ // GracePrintf (gracesubtitle);
+ // GracePrintf(graceloopsizehot);
+//  GracePrintf(graceloopsizecold);
   //
 ////////////////////////////
 //CALCULATION STARTS HERE //
@@ -204,20 +129,20 @@ outfile4<<k<<" "<<bigloopscale*bigcoldloop<<" "<<bigloopscale*bigcoldstd<<endl;
 
 
    if(k%scalex==0 && k!=niter)
-   {sprintf(gracecommand,"world xmax %d",k+scalex);
-   GracePrintf (gracecommand);
-   GracePrintf ("autoticks");
-   }
+  // {sprintf(gracecommand,"world xmax %d",k+scalex);
+ //  GracePrintf (gracecommand);
+  // GracePrintf ("autoticks");
+ //  }
    tfinal=time(0);
-   sprintf(gracetitle,"title \"Thermalisation CPU time: %d secs\"",tfinal-tinitial);
-   GracePrintf(gracetitle);
+ //  sprintf(gracetitle,"title \"Thermalisation CPU time: %d secs\"",tfinal-tinitial);
+ //  GracePrintf(gracetitle);
 
-    GracePrintf ("g0.s0 point %0.5g, %0.5g", rk,hotloop);
-    GracePrintf ("g0.s1 point %0.5g, %0.5g", rk,coldloop);
-    GracePrintf ("g0.s2 point %0.5g, %0.5g", rk,bighotloop*bigloopscale);
-    GracePrintf ("g0.s3 point %0.5g, %0.5g", rk,bigcoldloop*bigloopscale);
-    if(k%autoscale==0) GracePrintf ("autoscale yaxes");
-    GracePrintf ("redraw");
+ //   GracePrintf ("g0.s0 point %0.5g, %0.5g", rk,hotloop);
+  //  GracePrintf ("g0.s1 point %0.5g, %0.5g", rk,coldloop);
+  //  GracePrintf ("g0.s2 point %0.5g, %0.5g", rk,bighotloop*bigloopscale);
+  //  GracePrintf ("g0.s3 point %0.5g, %0.5g", rk,bigcoldloop*bigloopscale);
+   // if(k%autoscale==0) GracePrintf ("autoscale yaxes");
+  //  GracePrintf ("redraw");
 //  add iterations interactively
 //
 	if(k==niter and niter<maxiter)
@@ -244,20 +169,20 @@ outfile4<<k<<" "<<bigloopscale*bigcoldloop<<" "<<bigloopscale*bigcoldstd<<endl;
 // CLOSE FILES AND PLOT ERRORS  //
 //////////////////////////////////
 outfile1.close();outfile2.close();outfile3.close();outfile4.close();
-sprintf(gracecommand,"world xmax %d",niter);
-GracePrintf ("with g1");
-GracePrintf (gracecommand);
-GracePrintf ("autoticks");
-GracePrintf ("focus g1");
-GracePrintf ("read xydy \"hot.dat\" ");
-GracePrintf ("read xydy \"cold.dat\" ");
-GracePrintf ("read xydy \"bighot.dat\" ");
-GracePrintf ("read xydy \"bigcold.dat\" ");
-GracePrintf ("redraw");
+//sprintf(gracecommand,"world xmax %d",niter);
+//GracePrintf ("with g1");
+//GracePrintf (gracecommand);
+//GracePrintf ("autoticks");
+//GracePrintf ("focus g1");
+//GracePrintf ("read xydy \"hot.dat\" ");
+//GracePrintf ("read xydy \"cold.dat\" ");
+//GracePrintf ("read xydy \"bighot.dat\" ");
+//GracePrintf ("read xydy \"bigcold.dat\" ");
+//GracePrintf ("redraw");
 //
-system("xmessage -center  save Grace file Thermalise.agr and then exit?");
+//system("xmessage -center  save Grace file Thermalise.agr and then exit?");
 //
-EndGrace();
+//EndGrace();
 //
  mdp.close_wormholes();
 //

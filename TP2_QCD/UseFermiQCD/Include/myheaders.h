@@ -3,7 +3,7 @@
 #include "mdp_fitting_functions.h"
 //
 #include "myloop.h"
-#include "grace_np.h"
+//#include "grace_np.h"
 #include "direxist.h"
 //
 #ifdef USE_NAMESPACE

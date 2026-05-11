@@ -1,0 +1,24 @@
+nohup: ignoring input
+======================================
+=== Calcul pour beta=1.5 ===
+======================================
+run_all_beta.sh: line 11: g++: command not found
+ERREUR de compilation pour beta=1.5 — on passe au suivant
+======================================
+=== Calcul pour beta=1.7 ===
+======================================
+run_all_beta.sh: line 11: g++: command not found
+ERREUR de compilation pour beta=1.7 — on passe au suivant
+======================================
+=== Calcul pour beta=1.9 ===
+======================================
+run_all_beta.sh: line 11: g++: command not found
+ERREUR de compilation pour beta=1.9 — on passe au suivant
+======================================
+=== Calcul pour beta=2.1 ===
+======================================
+run_all_beta.sh: line 11: g++: command not found
+ERREUR de compilation pour beta=2.1 — on passe au suivant
+======================================
+=== Tous les calculs sont terminés ===
+======================================

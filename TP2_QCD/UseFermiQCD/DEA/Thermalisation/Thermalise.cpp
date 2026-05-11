@@ -103,7 +103,7 @@ int main(int argc, char** argv) {
 ///////////////////////////
   int timesize=8,spacesize=8;
 ///   int box[]={timesize,spacesize,spacesize,spacesize};
-  int box[]={12,12,6,6};
+  int box[]={16,12,6,6};
   mdp_lattice lattice(4,box);
   int nc=2;                      //nc colors
   gauge_field U(lattice,nc);
@@ -124,7 +124,7 @@ int main(int argc, char** argv) {
 //// LOOP DEFINITION and STORAGE//
 //////////////////////////////////
   int mu=0,nu=1,t=1,z=1,bigt=4,bigz=4;  //loop plane and size
-  bigt=6;bigz=6;
+  bigt=5;bigz=5;
   float hotloop,hotsum,coldloop,coldsum;
   float bighotloop,bighotsum,bigcoldloop,bigcoldsum,bigloopscale=10;
   float bighotstd,bigcoldstd,hotstd,coldstd;
